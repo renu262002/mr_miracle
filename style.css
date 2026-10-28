@@ -979,3 +979,17 @@ footer {
   .miracle-magic { left: 72%; top: 59%; }
   .miracle-arm { left: 68%; top: 37%; }
 }
+
+/* CLEAN MASCOT FIX: no detached arm, no clipped shoes */
+.hero {overflow: hidden;}
+.hero-grid{min-height:710px;align-items:center;}
+.miracle-sequence {height:660px;overflow:visible;isolation:isolate;}
+.miracle-character {left:1% !important; bottom:16px !important;width:55% !important;height:95% !important;animation:lion-entry .85s ease-out both,lion-idle 4s ease-in-out 4.2s infinite !important;}
+.miracle-body{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;}
+.miracle-arm{display:none !important;}
+.miracle-message{left:39% !important;right:-5% !important;top:12% !important;z-index:4;}
+.miracle-magic{left:76% !important;top:61% !important;z-index:3;}
+.miracle-halo{z-index:-1;}
+@media(max-width:1100px){.hero-grid{min-height:600px}.miracle-sequence{height:550px}.miracle-character{left:-1% !important;width:57% !important;height:96% !important}}
+@media(max-width:900px){.hero-grid{min-height:auto}.miracle-sequence{height:600px}.miracle-character{left:10% !important;width:45% !important;height:96% !important}.miracle-message{left:43% !important;right:1% !important}.miracle-magic{left:69% !important}}
+@media(max-width:640px){.miracle-sequence{height:465px}.miracle-character{left:-4% !important;width:60% !important;height:95% !important}.miracle-message{left:41% !important;right:-1% !important;top:15% !important}.miracle-magic{left:75% !important;top:65% !important}.miracle-message b{white-space:normal;text-align:center}.hero-grid{gap:16px}}
