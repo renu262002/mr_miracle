@@ -597,8 +597,6 @@ footer {
 .miracle-sequence {
   --palm-x: 26%;
   --palm-y: 76%;
-  --beam-angle: -17deg;   /* direction of the beam toward the words */
-  --beam-len: 285px;      /* how far the beam reaches */
   position: relative;
   height: 600px;
   min-width: 0;
@@ -709,8 +707,8 @@ footer {
 .miracle-message {
   position: absolute;
   z-index: 4;
-  left: 76%;   /* words position: bigger = more right */
-  top: 62%;    /* bigger = lower */
+  left: 76%;
+  top: 40%;
   width: 46%;
   display: flex;
   flex-direction: column;
