@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  
 </head>
 
 <body>
@@ -48,7 +48,7 @@
   <main>
 
     <!-- HERO SECTION -->
-    <section class="hero" id="home">
+    <section class="hero" id="home" data-say="Roar! I'm the MR Miracle lion. Move your mouse, I'm watching. Click me for an encore!">
       <div class="glow glow-one"></div>
       <div class="glow glow-two"></div>
 
@@ -126,7 +126,7 @@
     </section>
 
     <!-- ABOUT SECTION -->
-    <section class="section about" id="about">
+    <section class="section about" id="about" data-say="We're not just an agency. We're your growth partner.">
 
       <div class="container about-grid">
 
@@ -163,7 +163,7 @@
     </section>
 
     <!-- SERVICES SECTION -->
-    <section class="section services" id="services">
+    <section class="section services" id="services" data-say="Websites, SEO, social, ads. Pick your power-up!">
 
       <div class="container">
 
@@ -290,7 +290,7 @@
     </section>
 
     <!-- WHY CHOOSE US -->
-    <section class="section why" id="why-us">
+    <section class="section why" id="why-us" data-say="Creative meets performance. That's where the miracle happens.">
 
       <div class="container why-grid">
 
@@ -358,7 +358,7 @@
     </section>
 
     <!-- CONTACT SECTION -->
-    <section class="cta-section" id="contact">
+    <section class="cta-section" id="contact" data-say="Ready to grow? Tap me and let's talk!">
 
       <div class="container cta-inner">
 
@@ -379,10 +379,7 @@
           Start a Conversation ↗
         </a>
 
-        <small>
-          Replace the email address with your official
-          business email before publishing.
-        </small>
+        <!-- TODO: replace hello@mrmiracle.com with your official business email -->
 
       </div>
 
@@ -420,5 +417,15 @@
 
   </footer>
 
+  <!-- MASCOT GUIDE: follows the visitor down the page -->
+  <aside class="guide" id="guide" aria-live="polite">
+    <button class="guide-avatar" type="button" aria-label="Talk to MR Miracle">
+      <span class="guide-ring"></span>
+      <span class="guide-face"><img src="lion-body-corrected.png" alt=""></span>
+    </button>
+    <p class="guide-bubble" id="guide-text"></p>
+  </aside>
+
+  <script src="script.js"></script>
 </body>
 </html>
