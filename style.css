@@ -577,17 +577,18 @@ footer {
 }
 
 /* =====================================================
-   HERO MASCOT ANIMATION  (pointing pose)
+   HERO MASCOT ANIMATION  (pointing pose, loops every 5s)
 
-   Timeline
+   One 5-second cycle, then it starts again:
    0.0s  lion slides in
    1.0s  light appears at the fingertip
    1.8s  light flashes
    1.9s  text comes OUT of the light and flies to the right
-   after: light pulses, ring + stars loop
+   4.4s  everything fades away
+   5.0s  repeat
 
-   Tune the light position with --palm-x / --palm-y:
-   bigger x = move right, bigger y = move down
+   Change "5s" in the animations below to change the gap.
+   Tune the light position with --palm-x / --palm-y.
    ===================================================== */
 
 .miracle-sequence {
@@ -620,9 +621,7 @@ footer {
   width: 66%;
   aspect-ratio: 357 / 411;
   transform-origin: 50% 100%;
-  animation:
-    lion-entry .9s cubic-bezier(.2, .85, .2, 1) both,
-    lion-idle 4s ease-in-out .9s infinite;
+  animation: lion-loop 5s linear infinite;
 }
 
 .miracle-body {
@@ -636,6 +635,9 @@ footer {
           mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
 }
 
+/* gentle idle float on the picture itself */
+.miracle-body { animation: lion-idle 2.5s ease-in-out infinite; }
+
 /* Light at the fingertip */
 .miracle-magic {
   position: absolute;
@@ -648,8 +650,8 @@ footer {
   transform: translate(-50%, -50%) scale(.05);
   pointer-events: none;
   animation:
-    orb-appear .9s cubic-bezier(.2, .9, .3, 1.2) 1s forwards,
-    orb-pulse 3s ease-in-out 2s infinite;
+    orb-loop 5s linear infinite,
+    orb-pulse 2.5s ease-in-out infinite;
 }
 
 /* flash burst when the text is released */
@@ -660,7 +662,7 @@ footer {
   border-radius: 50%;
   background: radial-gradient(circle, #fff 0%, #bfe3ff 35%, transparent 70%);
   opacity: 0;
-  animation: orb-flash .9s ease-out 1.8s forwards;
+  animation: orb-flash 5s linear infinite;
 }
 
 .miracle-core {
@@ -680,7 +682,7 @@ footer {
   border: 2px solid #a6dcff;
   border-radius: 50%;
   box-shadow: 0 0 18px #76b8ff;
-  animation: magic-ring 2s linear 1.8s infinite;
+  animation: magic-ring 2s linear infinite;
 }
 
 .miracle-star {
@@ -710,9 +712,9 @@ footer {
   line-height: 1.05;
   opacity: 0;
   transform: translate(-50%, -50%) scale(.05);
-  filter: blur(10px) brightness(2.5);
+  filter: blur(10px) brightness(2.5) drop-shadow(0 6px 14px #0000);
   pointer-events: none;
-  animation: message-fly 1.3s cubic-bezier(.18, .86, .24, 1.1) 1.9s forwards;
+  animation: message-fly 5s linear infinite;
 }
 
 .miracle-message span {
@@ -742,9 +744,11 @@ footer {
   text-shadow: 0 3px 0 #8c420c, 0 0 17px #ffab5488;
 }
 
-@keyframes lion-entry {
-  from { opacity: 0; transform: translateX(-40px) scale(.94); }
-  to   { opacity: 1; transform: translateX(0) scale(1); }
+@keyframes lion-loop {
+  0%   { opacity: 0; transform: translateX(-40px) scale(.94);
+         animation-timing-function: cubic-bezier(.2, .85, .2, 1); }
+  18%, 90% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(-20px) scale(.97); }
 }
 
 @keyframes lion-idle {
@@ -752,10 +756,12 @@ footer {
   50%      { transform: translateY(-6px); }
 }
 
-@keyframes orb-appear {
-  0%   { opacity: 0; transform: translate(-50%, -50%) scale(.05); }
-  60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.25); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+@keyframes orb-loop {
+  0%, 20% { opacity: 0; transform: translate(-50%, -50%) scale(.05);
+            animation-timing-function: cubic-bezier(.2, .9, .3, 1.2); }
+  36%, 88% { opacity: 1; transform: translate(-50%, -50%) scale(1);
+             animation-timing-function: ease-in; }
+  96%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(.05); }
 }
 
 @keyframes orb-pulse {
@@ -764,9 +770,9 @@ footer {
 }
 
 @keyframes orb-flash {
-  0%   { opacity: 0; transform: scale(.4); }
-  30%  { opacity: 1; }
-  100% { opacity: 0; transform: scale(5); }
+  0%, 36% { opacity: 0; transform: scale(.4); }
+  40%     { opacity: 1; }
+  54%, 100% { opacity: 0; transform: scale(5); }
 }
 
 @keyframes magic-ring {
@@ -780,20 +786,28 @@ footer {
 }
 
 @keyframes message-fly {
-  0% {
+  0%, 36% {
     opacity: 0;
     left: var(--palm-x);
     top: var(--palm-y);
     transform: translate(-50%, -50%) scale(.05);
-    filter: blur(10px) brightness(2.5);
+    filter: blur(10px) brightness(2.5) drop-shadow(0 6px 14px #0000);
+    animation-timing-function: cubic-bezier(.18, .86, .24, 1.1);
   }
-  25% { opacity: 1; }
-  100% {
+  44% { opacity: 1; }
+  64%, 88% {
     opacity: 1;
     left: 76%;
     top: 40%;
     transform: translate(-50%, -50%) scale(1);
     filter: blur(0) brightness(1) drop-shadow(0 6px 14px #0009);
+  }
+  96%, 100% {
+    opacity: 0;
+    left: 76%;
+    top: 40%;
+    transform: translate(-50%, -50%) scale(.85);
+    filter: blur(8px) brightness(1.4) drop-shadow(0 6px 14px #0000);
   }
 }
 
@@ -986,26 +1000,35 @@ footer {
   .miracle-magic { width: 64px; height: 64px; }
 
   @keyframes message-fly {
-    0% {
+    0%, 36% {
       opacity: 0;
       left: var(--palm-x);
       top: var(--palm-y);
       transform: translate(-50%, -50%) scale(.05);
-      filter: blur(10px) brightness(2.5);
+      filter: blur(10px) brightness(2.5) drop-shadow(0 6px 14px #0000);
+      animation-timing-function: cubic-bezier(.18, .86, .24, 1.1);
     }
-    25% { opacity: 1; }
-    100% {
+    44% { opacity: 1; }
+    64%, 88% {
       opacity: 1;
       left: 50%;
       top: 20%;
       transform: translate(-50%, -50%) scale(1);
       filter: blur(0) brightness(1) drop-shadow(0 6px 14px #0009);
     }
+    96%, 100% {
+      opacity: 0;
+      left: 50%;
+      top: 20%;
+      transform: translate(-50%, -50%) scale(.85);
+      filter: blur(8px) brightness(1.4) drop-shadow(0 6px 14px #0000);
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .miracle-character,
+  .miracle-body,
   .miracle-magic,
   .miracle-magic::after,
   .miracle-message,
