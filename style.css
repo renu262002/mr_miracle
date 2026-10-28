@@ -577,16 +577,22 @@ footer {
 }
 
 /* =====================================================
-   HERO MASCOT ANIMATION  (single clean block)
+   HERO MASCOT ANIMATION  (pointing pose)
 
    Timeline
    0.0s  lion slides in
-   1.0s  magic orb appears beside the lion
-   1.8s  orb flashes, text bursts out of it
-   after gentle idle float, orb pulse, ring + stars loop
+   1.0s  light appears at the fingertip
+   1.8s  light flashes
+   1.9s  text comes OUT of the light and flies to the right
+   after: light pulses, ring + stars loop
+
+   Tune the light position with --palm-x / --palm-y:
+   bigger x = move right, bigger y = move down
    ===================================================== */
 
 .miracle-sequence {
+  --palm-x: 26%;
+  --palm-y: 76%;
   position: relative;
   height: 600px;
   min-width: 0;
@@ -610,9 +616,9 @@ footer {
 .miracle-character {
   position: absolute;
   left: 0;
-  bottom: 0;
-  width: 50%;
-  height: 96%;
+  bottom: 4%;
+  width: 66%;
+  aspect-ratio: 357 / 411;
   transform-origin: 50% 100%;
   animation:
     lion-entry .9s cubic-bezier(.2, .85, .2, 1) both,
@@ -626,22 +632,35 @@ footer {
   object-fit: contain;
   object-position: center bottom;
   filter: drop-shadow(0 24px 28px #0009);
+  -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
 }
 
-/* Magic orb */
+/* Light at the fingertip */
 .miracle-magic {
   position: absolute;
   z-index: 3;
-  left: 62%;
-  top: 66%;
-  width: 95px;
-  height: 95px;
+  left: var(--palm-x);
+  top: var(--palm-y);
+  width: 80px;
+  height: 80px;
   opacity: 0;
   transform: translate(-50%, -50%) scale(.05);
   pointer-events: none;
   animation:
-    orb-appear .8s cubic-bezier(.2, .9, .3, 1.2) 1s forwards,
-    orb-pulse 3s ease-in-out 1.8s infinite;
+    orb-appear .9s cubic-bezier(.2, .9, .3, 1.2) 1s forwards,
+    orb-pulse 3s ease-in-out 2s infinite;
+}
+
+/* flash burst when the text is released */
+.miracle-magic::after {
+  content: "";
+  position: absolute;
+  inset: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, #bfe3ff 35%, transparent 70%);
+  opacity: 0;
+  animation: orb-flash .9s ease-out 1.8s forwards;
 }
 
 .miracle-core {
@@ -668,7 +687,7 @@ footer {
   position: absolute;
   color: #fff4b8;
   text-shadow: 0 0 12px #fff;
-  font-size: 27px;
+  font-size: 24px;
   animation: magic-star 2.8s ease-in-out infinite;
 }
 
@@ -676,13 +695,13 @@ footer {
 .star-b { right: -38px; top: 6px; animation-delay: .5s; }
 .star-c { left: 32px; bottom: -40px; animation-delay: 1.2s; }
 
-/* Message: bursts out of the orb */
+/* Message: starts hidden inside the light, then comes out of it */
 .miracle-message {
   position: absolute;
   z-index: 4;
-  left: 46%;
-  right: 0;
-  top: 10%;
+  left: var(--palm-x);
+  top: var(--palm-y);
+  width: 46%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -690,11 +709,10 @@ footer {
   text-align: center;
   line-height: 1.05;
   opacity: 0;
-  transform-origin: 20% 100%;
-  transform: translateY(70px) scale(.4);
-  filter: blur(8px) drop-shadow(0 6px 14px #0009);
+  transform: translate(-50%, -50%) scale(.05);
+  filter: blur(10px) brightness(2.5);
   pointer-events: none;
-  animation: message-reveal 1s cubic-bezier(.18, .86, .24, 1.2) 1.8s forwards;
+  animation: message-fly 1.3s cubic-bezier(.18, .86, .24, 1.1) 1.9s forwards;
 }
 
 .miracle-message span {
@@ -745,6 +763,12 @@ footer {
   50%      { filter: brightness(1.45); }
 }
 
+@keyframes orb-flash {
+  0%   { opacity: 0; transform: scale(.4); }
+  30%  { opacity: 1; }
+  100% { opacity: 0; transform: scale(5); }
+}
+
 @keyframes magic-ring {
   from { transform: scale(.65) rotate(0); opacity: .95; }
   to   { transform: scale(1.5) rotate(180deg); opacity: 0; }
@@ -755,11 +779,21 @@ footer {
   50%      { opacity: 1; transform: scale(1.25); }
 }
 
-@keyframes message-reveal {
-  to {
+@keyframes message-fly {
+  0% {
+    opacity: 0;
+    left: var(--palm-x);
+    top: var(--palm-y);
+    transform: translate(-50%, -50%) scale(.05);
+    filter: blur(10px) brightness(2.5);
+  }
+  25% { opacity: 1; }
+  100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0) drop-shadow(0 6px 14px #0009);
+    left: 76%;
+    top: 40%;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0) brightness(1) drop-shadow(0 6px 14px #0009);
   }
 }
 
@@ -768,8 +802,6 @@ footer {
 @media (max-width: 1100px) {
   .hero-grid { min-height: 540px; }
   .miracle-sequence { height: 520px; }
-  .miracle-character { width: 54%; }
-  .miracle-message { left: 48%; }
 }
 
 @media (max-width: 900px) {
@@ -820,10 +852,12 @@ footer {
     margin-top: 30px;
   }
 
-  .miracle-sequence { height: 540px; }
-  .miracle-character { left: 8%; width: 46%; }
-  .miracle-message { left: 50%; }
-  .miracle-magic { left: 60%; }
+  .miracle-sequence {
+    height: 540px;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+  }
 }
 
 /* MOBILE RESPONSIVE */
@@ -935,25 +969,61 @@ footer {
     margin-top: 35px;
   }
 
-  .miracle-sequence { height: 440px; }
-  .miracle-character { left: 0; width: 56%; }
-  .miracle-message { left: 50%; right: -2%; top: 8%; }
+  /* mascot on mobile: text rises into the space above the lion */
+  .miracle-sequence {
+    --palm-x: 24%;
+    --palm-y: 80%;
+    height: 440px;
+  }
+
+  .miracle-character { width: 62%; }
+
+  .miracle-message { width: 92%; }
   .miracle-message strong { font-size: clamp(30px, 9vw, 48px); }
   .miracle-message b { font-size: clamp(16px, 4.2vw, 24px); white-space: normal; }
   .miracle-message span { font-size: 10px; }
-  .miracle-magic { left: 64%; top: 68%; width: 80px; height: 80px; }
+
+  .miracle-magic { width: 64px; height: 64px; }
+
+  @keyframes message-fly {
+    0% {
+      opacity: 0;
+      left: var(--palm-x);
+      top: var(--palm-y);
+      transform: translate(-50%, -50%) scale(.05);
+      filter: blur(10px) brightness(2.5);
+    }
+    25% { opacity: 1; }
+    100% {
+      opacity: 1;
+      left: 50%;
+      top: 20%;
+      transform: translate(-50%, -50%) scale(1);
+      filter: blur(0) brightness(1) drop-shadow(0 6px 14px #0009);
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .miracle-character,
   .miracle-magic,
+  .miracle-magic::after,
   .miracle-message,
   .miracle-ring,
   .miracle-star {
     animation: none !important;
-    opacity: 1 !important;
   }
 
-  .miracle-magic { transform: translate(-50%, -50%) scale(1); }
-  .miracle-message { transform: none; filter: none; }
+  .miracle-magic {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .miracle-message {
+    opacity: 1;
+    left: 76%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    filter: none;
+  }
 }
