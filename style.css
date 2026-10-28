@@ -941,3 +941,41 @@ footer {
 @media(max-width:900px){.miracle-sequence{height:490px}.miracle-character{left:5%;width:53%}.miracle-message{right:0;left:36%}.miracle-magic{left:67%}}
 @media(max-width:640px){.miracle-sequence{height:360px}.miracle-character{left:-1%;width:57%}.miracle-arm{top:41%}.miracle-message{left:34%;right:-5%;top:11%}.miracle-message strong{font-size:clamp(30px,9vw,51px)}.miracle-message b{font-size:clamp(17px,4.5vw,25px)}.miracle-message span{font-size:10px}.miracle-magic{top:57%;left:68%;transform-origin:center}}
 @media(prefers-reduced-motion:reduce){.miracle-character,.miracle-arm,.miracle-magic,.miracle-message,.miracle-ring,.miracle-star{animation:none!important;opacity:1!important}.miracle-arm{transform:rotate(-12deg) scale(.88)}.miracle-magic{transform:translate(-50%,-50%) scale(1)}.miracle-message{transform:none}}
+
+
+/* FIX V2: Show full shoes/legs, keep shirt artwork unobstructed. */
+.hero { overflow: hidden; }
+.hero-grid { align-items: center; }
+.miracle-sequence { height: 650px; overflow: visible; }
+.miracle-character {
+  position: absolute;
+  left: -1%; bottom: 0;
+  width: 57%; height: 95%;
+  transform-origin: center bottom;
+}
+.miracle-body {
+  display: block; width: 100%; height: 100%;
+  object-fit: contain; object-position: center bottom;
+}
+/* Entire body image is visible; chest remains in front of the separate arm pivot. */
+.miracle-arm { left: 71%; top: 35%; width: 105%; }
+.miracle-message { left: 39%; right: -5%; top: 9%; }
+.miracle-magic { left: 73%; top: 59%; }
+@media(max-width:1100px) {
+  .miracle-sequence { height: 560px; }
+  .miracle-character { left: 0; width: 58%; height: 95%; }
+  .miracle-message { left: 36%; right: -2%; }
+}
+@media(max-width:900px) {
+  .miracle-sequence { height: 590px; }
+  .miracle-character { left: 12%; width: 45%; height: 95%; }
+  .miracle-message { left: 42%; right: 2%; }
+  .miracle-magic { left: 64%; top: 58%; }
+}
+@media(max-width:640px) {
+  .miracle-sequence { height: 465px; }
+  .miracle-character { left: 0%; width: 56%; height: 96%; }
+  .miracle-message { left: 41%; right: 0; top: 9%; }
+  .miracle-magic { left: 72%; top: 59%; }
+  .miracle-arm { left: 68%; top: 37%; }
+}
