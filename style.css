@@ -582,13 +582,16 @@ footer {
    One 5-second cycle, then it starts again:
    0.0s  lion slides in
    1.0s  light appears at the fingertip
-   1.8s  light flashes
-   1.9s  text comes OUT of the light and flies to the right
+   1.8s  light flashes + beam shoots toward the text area
+   1.8s+ words pop out one by one (Give a / Miracle / to your / Business Growth)
+   1.9s  lion leans + bounces
+   2.8s  gold shine sweeps across "Miracle"
    4.4s  everything fades away
    5.0s  repeat
 
-   Change "5s" in the animations below to change the gap.
-   Tune the light position with --palm-x / --palm-y.
+   Change "5s" in the animations to change the loop time.
+   Tune the light with --palm-x / --palm-y.
+   Tune the beam with --beam-angle / --beam-len.
    ===================================================== */
 
 .miracle-sequence {
@@ -636,7 +639,10 @@ footer {
 }
 
 /* gentle idle float on the picture itself */
-.miracle-body { animation: lion-idle 2.5s ease-in-out infinite; }
+.miracle-body {
+  transform-origin: 40% 100%;
+  animation: lion-lean 5s linear infinite;
+}
 
 /* Light at the fingertip */
 .miracle-magic {
@@ -701,8 +707,8 @@ footer {
 .miracle-message {
   position: absolute;
   z-index: 4;
-  left: var(--palm-x);
-  top: var(--palm-y);
+  left: 76%;
+  top: 40%;
   width: 46%;
   display: flex;
   flex-direction: column;
@@ -710,11 +716,9 @@ footer {
   gap: 2px;
   text-align: center;
   line-height: 1.05;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(.05);
-  filter: blur(10px) brightness(2.5) drop-shadow(0 6px 14px #0000);
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 6px 14px #0009);
   pointer-events: none;
-  animation: message-fly 5s linear infinite;
 }
 
 .miracle-message span {
@@ -744,6 +748,73 @@ footer {
   text-shadow: 0 3px 0 #8c420c, 0 0 17px #ffab5488;
 }
 
+/* ---------- beam: light streak from the fingertip toward the text ---------- */
+.miracle-sequence::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: var(--palm-x);
+  top: var(--palm-y);
+  width: var(--beam-len, 330px);
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #fff, #9fd4ff 40%, #8f7bff 75%, transparent);
+  box-shadow: 0 0 14px 3px #8ecbffaa;
+  transform-origin: 0 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: beam 5s linear infinite;
+}
+
+/* ---------- words pop out one by one ---------- */
+.miracle-message > * {
+  animation: word-pop 5s linear infinite backwards;
+}
+.miracle-message > :nth-child(1) { animation-delay: 0s; }
+.miracle-message > :nth-child(2) { animation-delay: .25s; }
+.miracle-message > :nth-child(3) { animation-delay: .5s; }
+.miracle-message > :nth-child(4) { animation-delay: .75s; }
+
+/* ---------- gold shine sweeping across "Miracle" ---------- */
+.miracle-message strong { position: relative; }
+.miracle-message strong::after {
+  content: "Miracle";   /* keep in sync if you change the word */
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  background: linear-gradient(105deg, transparent 38%, #fffbe6cc 50%, transparent 62%) 110% 0 / 200% 100% no-repeat;
+  -webkit-background-clip: text;
+          background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+@keyframes beam {
+  0%, 35% { opacity: 0; transform: rotate(var(--beam-angle, -37deg)) scaleX(0);
+            animation-timing-function: cubic-bezier(.3, .7, .2, 1); }
+  37%     { opacity: 1; }
+  46%     { opacity: 1; transform: rotate(var(--beam-angle, -37deg)) scaleX(1); }
+  56%, 100% { opacity: 0; transform: rotate(var(--beam-angle, -37deg)) scaleX(1); }
+}
+
+@keyframes word-pop {
+  0%, 35% { opacity: 0; transform: translateY(26px) scale(.2);
+            filter: blur(10px) brightness(3);
+            animation-timing-function: cubic-bezier(.2, .9, .3, 1.3); }
+  48%     { opacity: 1; }
+  52%, 86% { opacity: 1; transform: translateY(0) scale(1);
+             filter: blur(0) brightness(1); }
+  94%, 100% { opacity: 0; transform: translateY(-10px) scale(.9);
+              filter: blur(6px) brightness(1.3); }
+}
+
+@keyframes shimmer {
+  0%, 56%   { background-position: 110% 0; }
+  72%, 100% { background-position: -10% 0; }
+}
+
 @keyframes lion-loop {
   0%   { opacity: 0; transform: translateX(-40px) scale(.94);
          animation-timing-function: cubic-bezier(.2, .85, .2, 1); }
@@ -751,9 +822,14 @@ footer {
   100% { opacity: 0; transform: translateX(-20px) scale(.97); }
 }
 
-@keyframes lion-idle {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
+@keyframes lion-lean {
+  0%, 34% { transform: translateY(0) rotate(0) scale(1); }
+  40%     { transform: translateY(-16px) rotate(2.5deg) scale(1.03);
+            animation-timing-function: cubic-bezier(.3, 1.4, .5, 1); }
+  48%     { transform: translateY(0) rotate(1.5deg) scale(1); }
+  62%     { transform: translateY(-6px) rotate(.8deg) scale(1); }
+  78%     { transform: translateY(0) rotate(0) scale(1); }
+  90%, 100% { transform: translateY(-5px) rotate(0) scale(1); }
 }
 
 @keyframes orb-loop {
@@ -785,31 +861,6 @@ footer {
   50%      { opacity: 1; transform: scale(1.25); }
 }
 
-@keyframes message-fly {
-  0%, 36% {
-    opacity: 0;
-    left: var(--palm-x);
-    top: var(--palm-y);
-    transform: translate(-50%, -50%) scale(.05);
-    filter: blur(10px) brightness(2.5) drop-shadow(0 6px 14px #0000);
-    animation-timing-function: cubic-bezier(.18, .86, .24, 1.1);
-  }
-  44% { opacity: 1; }
-  64%, 88% {
-    opacity: 1;
-    left: 76%;
-    top: 40%;
-    transform: translate(-50%, -50%) scale(1);
-    filter: blur(0) brightness(1) drop-shadow(0 6px 14px #0009);
-  }
-  96%, 100% {
-    opacity: 0;
-    left: 76%;
-    top: 40%;
-    transform: translate(-50%, -50%) scale(.85);
-    filter: blur(8px) brightness(1.4) drop-shadow(0 6px 14px #0000);
-  }
-}
 
 /* TABLET RESPONSIVE */
 
@@ -987,43 +1038,20 @@ footer {
   .miracle-sequence {
     --palm-x: 24%;
     --palm-y: 80%;
+    --beam-angle: -72deg;
+    --beam-len: 280px;
     height: 440px;
   }
 
   .miracle-character { width: 62%; }
 
-  .miracle-message { width: 92%; }
+  .miracle-message { width: 92%; left: 50%; top: 20%; }
   .miracle-message strong { font-size: clamp(30px, 9vw, 48px); }
   .miracle-message b { font-size: clamp(16px, 4.2vw, 24px); white-space: normal; }
   .miracle-message span { font-size: 10px; }
 
   .miracle-magic { width: 64px; height: 64px; }
 
-  @keyframes message-fly {
-    0%, 36% {
-      opacity: 0;
-      left: var(--palm-x);
-      top: var(--palm-y);
-      transform: translate(-50%, -50%) scale(.05);
-      filter: blur(10px) brightness(2.5) drop-shadow(0 6px 14px #0000);
-      animation-timing-function: cubic-bezier(.18, .86, .24, 1.1);
-    }
-    44% { opacity: 1; }
-    64%, 88% {
-      opacity: 1;
-      left: 50%;
-      top: 20%;
-      transform: translate(-50%, -50%) scale(1);
-      filter: blur(0) brightness(1) drop-shadow(0 6px 14px #0009);
-    }
-    96%, 100% {
-      opacity: 0;
-      left: 50%;
-      top: 20%;
-      transform: translate(-50%, -50%) scale(.85);
-      filter: blur(8px) brightness(1.4) drop-shadow(0 6px 14px #0000);
-    }
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1042,11 +1070,10 @@ footer {
     transform: translate(-50%, -50%) scale(1);
   }
 
-  .miracle-message {
-    opacity: 1;
-    left: 76%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    filter: none;
+  .miracle-sequence::before { display: none; }
+
+  .miracle-message > *,
+  .miracle-message strong::after {
+    animation: none !important;
   }
 }
