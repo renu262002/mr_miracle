@@ -1077,3 +1077,45 @@ footer {
     animation: none !important;
   }
 }
+
+/* ACTIVE NAVIGATION — highlights the section currently in view */
+.header .nav nav > a:not(.nav-cta) {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.header .nav nav > a:not(.nav-cta).active {
+  color: #a69aff;
+}
+
+.header .nav nav > a:not(.nav-cta)::after {
+  content: "";
+  position: absolute;
+  bottom: -9px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.header .nav nav > a:not(.nav-cta).active::after {
+  transform: scaleX(1);
+}
+
+.header .nav .nav-cta.active {
+  background: linear-gradient(105deg, #6686ff, #a276ff);
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .header .nav nav > a:not(.nav-cta)::after {
+    bottom: -5px;
+  }
+  .header .nav nav > a:not(.nav-cta).active::after {
+    transform: scaleX(0.22);
+  }
+}

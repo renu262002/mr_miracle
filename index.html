@@ -34,7 +34,7 @@
       </label>
 
       <nav>
-        <a href="#home">Home</a>
+        <a href="#home" class="active" aria-current="location">Home</a>
         <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#why-us">Why Us</a>
@@ -418,6 +418,52 @@
     </div>
 
   </footer>
+
+
+  <!-- Highlight the current section in the navigation -->
+  <script>
+    (() => {
+      const links = [...document.querySelectorAll('.header nav a[href^="#"]')];
+      const sections = links.map(link => document.querySelector(link.getAttribute('href')));
+      const menuToggle = document.getElementById('menu-toggle');
+
+      function updateActiveLink() {
+        const position = window.scrollY + 90 + window.innerHeight * 0.25;
+        let activeIndex = 0;
+
+        sections.forEach((section, index) => {
+          if (section && section.offsetTop <= position) activeIndex = index;
+        });
+
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 5) {
+          activeIndex = sections.length - 1;
+        }
+
+        links.forEach((link, index) => {
+          const isActive = index === activeIndex;
+          link.classList.toggle('active', isActive);
+          if (isActive) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      }
+
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          if (menuToggle) menuToggle.checked = false;
+          links.forEach(item => {
+            item.classList.toggle('active', item === link);
+            item.removeAttribute('aria-current');
+          });
+          link.setAttribute('aria-current', 'location');
+        });
+      });
+
+      window.addEventListener('scroll', updateActiveLink, { passive: true });
+      window.addEventListener('resize', updateActiveLink);
+      window.addEventListener('load', updateActiveLink);
+      updateActiveLink();
+    })();
+  </script>
 
 </body>
 </html>
