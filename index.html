@@ -365,11 +365,6 @@
 <h2 id="contact-title">Let's Make Your Brand <span>Unforgettable.</span></h2>
 <p class="contact-question">Ready to grow your business online?</p>
 <p class="contact-description">Let's discuss your goals and create a digital strategy that helps your brand stand out, connect with customers, and unlock new opportunities.</p>
-<div class="contact-actions">
-<a class="btn btn-light" href="contact.html">Let's Grow Your Business <span aria-hidden="true">↗</span></a>
-
-</div>
-</div>
 <div class="contact-card">
 <span class="contact-card-label">GET IN TOUCH</span>
 <h3>MR Miracle <span>Digital Marketing Pvt. Ltd.</span></h3>
@@ -381,6 +376,38 @@
 </div>
 </div>
 </div>
+<div class="contact-form-card">
+<span class="contact-card-label">SEND A MESSAGE</span>
+<h3>Tell us about your project <span>We usually reply within one working day.</span></h3>
+<p class="form-success" id="form-success" role="status" hidden>Thank you! Your message has been sent. We'll be in touch soon.</p>
+<form class="contact-form" action="https://formsubmit.co/mr.miraclemktg@gmail.com" method="POST">
+<input type="hidden" name="_subject" value="New enquiry from the MR Miracle website">
+<input type="hidden" name="_template" value="table">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_next" value="https://www.mrmiracle.in/contact.html?sent=1">
+<input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+<div class="form-row">
+<label class="form-field"><span>Full name *</span><input type="text" name="name" placeholder="Your name" required autocomplete="name"></label>
+<label class="form-field"><span>Phone</span><input type="tel" name="phone" placeholder="+91 00000 00000" autocomplete="tel"></label>
+</div>
+<label class="form-field"><span>Email *</span><input type="email" name="email" placeholder="you@company.com" required autocomplete="email"></label>
+<label class="form-field"><span>Service you need</span>
+<select name="service">
+<option value="">Select a service</option>
+<option>Website Development</option>
+<option>Search Engine Optimization</option>
+<option>Social Media Management</option>
+<option>Meta Ads</option>
+<option>Google Ads</option>
+<option>Digital Growth Strategy</option>
+<option>Not sure yet</option>
+</select></label>
+<label class="form-field"><span>Message *</span><textarea name="message" rows="5" placeholder="Tell us about your business and goals…" required></textarea></label>
+<button class="btn btn-primary form-submit" type="submit">Send Message <span aria-hidden="true">↗</span></button>
+</form>
+</div>
+</div>
+
 </section></main>
 
   </main>
@@ -463,5 +490,5 @@
     })();
   </script>
 
-</body>
+<script>if(/[?&]sent=1/.test(location.search)){var s=document.getElementById("form-success");if(s){s.hidden=false;s.scrollIntoView({block:"center"});}}</script></body>
 </html>
