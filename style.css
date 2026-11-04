@@ -1369,3 +1369,7 @@ body {
   .compare-row .us::before { content: "MR Miracle: "; color: var(--pink); }
 }
 @media (max-width: 640px) { .promise-grid { grid-template-columns: 1fr; } }
+
+/* Photos for services (fall back to illustrations if a photo is missing) */
+.svc-media img { aspect-ratio: 3 / 2; object-fit: cover; }
+.svc-tile img, .service-card.has-img .card-media img { object-fit: cover; }
