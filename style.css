@@ -626,13 +626,21 @@ footer {
 .miracle-halo {
   position: absolute;
   z-index: -1;
-  width: 86%;
-  height: 80%;
-  left: 10%;
-  top: 14%;
+  width: 78%;
+  height: 86%;
+  left: -8%;
+  top: 8%;
   border-radius: 50%;
-  background: radial-gradient(ellipse, #f06a9a4d, transparent 67%);
-  filter: blur(24px);
+  /* soft golden glow right behind the lion */
+  background:
+    radial-gradient(ellipse at 50% 55%, #fff3c4cc 0%, #f6c45a8c 32%, #e3a52b44 55%, transparent 72%);
+  filter: blur(26px);
+  animation: halo-glow 5s ease-in-out infinite;
+}
+
+@keyframes halo-glow {
+  0%, 100% { opacity: .85; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.06); }
 }
 
 /* Lion */
@@ -1082,7 +1090,8 @@ footer {
   .miracle-magic::after,
   .miracle-message,
   .miracle-ring,
-  .miracle-star {
+  .miracle-star,
+  .miracle-halo {
     animation: none !important;
   }
 
