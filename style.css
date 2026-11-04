@@ -1217,3 +1217,40 @@ footer {
 .service-grid .feature-card h3 { margin-top: 28px; }
 .service-grid .feature-card p { max-width: 640px; }
 @media (max-width: 900px) { .service-grid .feature-card { padding-right: 30px; } }
+
+/* =====================================================
+   GOLDEN GLOW — soft gold tint across every page
+   ===================================================== */
+body {
+  background:
+    radial-gradient(ellipse 60% 40% at 100% 0%, #f6c45a26, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 0% 100%, #f6c45a2e, transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+.inner-hero {
+  background:
+    radial-gradient(ellipse at 15% 110%, #f6c45a73, transparent 55%),
+    radial-gradient(ellipse at 85% 15%, #f7a8c390, transparent 53%),
+    linear-gradient(125deg, #fff3e0, #fbe3d6);
+}
+
+.about, .why, footer, .page-next {
+  background:
+    radial-gradient(ellipse at 90% 0%, #f6c45a30, transparent 60%),
+    var(--bg-alt);
+}
+
+.cta-section {
+  background:
+    radial-gradient(ellipse at 10% 100%, #f6c45a66, transparent 55%),
+    radial-gradient(ellipse at 50% 120%, #f5b6ccaa, transparent 60%),
+    linear-gradient(110deg, #fbd9cc, #fff3e4);
+}
+
+.service-card { box-shadow: 0 8px 24px #e3a52b1f; }
+.service-card:hover { border-color: #e3a52b; box-shadow: 0 16px 36px #e3a52b3d; }
+.contact-card, .contact-form-card { box-shadow: 0 28px 70px #e3a52b2e; }
+.header { border-bottom-color: #e3a52b40; }
+.hero-footnote, .footer-bottom { border-top-color: #e3a52b40; }
